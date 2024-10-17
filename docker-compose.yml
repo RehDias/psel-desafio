@@ -32,7 +32,7 @@ services:
       - DBHOST=db
 
   db:
-    image: postgres:15-alpine
+    image: postgres:17-alpine
     container_name: db_container
     restart: unless-stopped
     ports:
