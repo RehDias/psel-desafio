@@ -11,9 +11,10 @@ services:
       - ./frontend/:/app
     ports:
       - 3000:3000
-    env_file: ./frontend/.env
+    env_file: .env
     depends_on:
       - backend
+      - db
 
   backend:
     image: node:22-alpine
@@ -27,17 +28,20 @@ services:
       - ./backend/:/app
     ports:
       - 4000:4000
-    env_file: ./backend/.env
+    env_file: .env
     environment:
-      - DBHOST=db
+      DB_HOST: db
 
   db:
-    image: postgres:17-alpine
+    image: postgres:16-alpine
     container_name: db_container
+    tty: true
+    stdin_open: true
     restart: unless-stopped
     ports:
       - 5432:5432
-    env_file:
-      ./backend/.env
+    env_file: .env
     environment:
-     - POSTGRES_PASSWORD=postgres
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
