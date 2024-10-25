@@ -1,4 +1,4 @@
-export type Transaction = {
+export interface Transaction {
   id: number,
   account_id: number,
   cashback: number,

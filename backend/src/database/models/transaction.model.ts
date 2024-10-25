@@ -1,6 +1,6 @@
 import { DataTypes, Model, ModelDefined, Optional } from "sequelize";
 import db from ".";
-import { Transaction } from "../../types/Transaction";
+import { Transaction } from "../../interfaces/Transaction";
 
 export type TransactionFields = Optional<Transaction, 'id'>;
 
@@ -10,8 +10,8 @@ export type TransactionSeqModel = Model<Transaction, TransactionFields>;
 
 const TransactionModel: TransactionModelCreator = db.define('transaction', {
   account_id: DataTypes.INTEGER,
-  cashback: DataTypes.INTEGER,
-  amount: DataTypes.INTEGER,
+  cashback: DataTypes.DECIMAL(10, 2),
+  amount: DataTypes.DECIMAL(10, 2),
   transaction_date: DataTypes.DATE,
 }, {
   tableName: 'transactions',

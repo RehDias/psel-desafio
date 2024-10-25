@@ -1,6 +1,6 @@
 import { Model, QueryInterface, DataTypes } from 'sequelize'; 
 
-import { Transaction } from '../../types/Transaction';
+import { Transaction } from '../../interfaces/Transaction';
 
 export default {
   up(queryInterface: QueryInterface) {
@@ -26,7 +26,7 @@ export default {
 
       cashback: {
         allowNull: false,
-        type: DataTypes.INTEGER,
+        type: DataTypes.DECIMAL(10, 2),
       },
 
       amount: {

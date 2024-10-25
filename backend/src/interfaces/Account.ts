@@ -1,4 +1,4 @@
-export type Account = {
+export interface Account {
   id: number,
   cpf_cnpj: string,
   name: string,
