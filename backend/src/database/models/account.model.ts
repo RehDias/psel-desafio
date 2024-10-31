@@ -1,23 +1,54 @@
-import { DataTypes, Model, ModelDefined, Optional } from "sequelize";
+import { CreationOptional, DataTypes, InferAttributes, 
+  InferCreationAttributes, Model } from "sequelize";
 import db from ".";
-import { Account } from "../../interfaces/Account";
 
-export type AccountFields = Optional<Account, 'id'>;
+class AccountSequelize extends Model<InferAttributes<AccountSequelize>,
+  InferCreationAttributes<AccountSequelize>> {
+    declare id: CreationOptional<number>;
+    declare cpf_cnpj: string;
+    declare name: string;
+    declare email: string;
+    declare password: string;
+    declare account_status: boolean;
+}
 
-type AccountModelCreator = ModelDefined<Account, AccountFields>;
+AccountSequelize.init({
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true,
+  },
 
-export type AccountSeqModel = Model<Account, AccountFields>;
+  cpf_cnpj: {
+    type: DataTypes.STRING(30),
+    allowNull: false,
+    unique: true,
+  },
 
-const AccountSequelizeModel: AccountModelCreator = db.define('account', {
-  cpf_cnpj: DataTypes.STRING,
-  name: DataTypes.STRING,
-  password: DataTypes.STRING,
-  email: DataTypes.STRING,
-  account_status: DataTypes.BOOLEAN,
+  name: {
+    type: DataTypes.STRING(150),
+    allowNull: false,
+  },
+
+  email: {
+    type: DataTypes.STRING(100),
+    allowNull:false,
+  },
+
+  password: {
+    type: DataTypes.STRING(100),
+    allowNull: false,
+  },
+
+  account_status: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  }
 }, {
-  tableName: 'accounts',
+  sequelize: db,
+  modelName: 'accounts',
   timestamps: false,
-  underscored: true,
-});
+})
 
-export default AccountSequelizeModel;
+export default AccountSequelize;

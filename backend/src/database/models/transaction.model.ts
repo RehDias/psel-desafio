@@ -1,22 +1,47 @@
-import { DataTypes, Model, ModelDefined, Optional } from "sequelize";
+import { CreationOptional, DataTypes, InferAttributes, 
+  InferCreationAttributes, Model } from "sequelize";
 import db from ".";
-import { Transaction } from "../../interfaces/Transaction";
 
-export type TransactionFields = Optional<Transaction, 'id'>;
+class TransactionSequelize extends Model<InferAttributes<TransactionSequelize>,
+  InferCreationAttributes<TransactionSequelize>> {
+    declare id: CreationOptional<number>;
+    declare account_id: number;
+    declare cashback: number;
+    declare amount: number;
+    declare transaction_date: Date;
+}
 
-type TransactionModelCreator = ModelDefined<Transaction, TransactionFields>;
+TransactionSequelize.init({
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true,
+  },
 
-export type TransactionSeqModel = Model<Transaction, TransactionFields>;
+  account_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
 
-const TransactionModel: TransactionModelCreator = db.define('transaction', {
-  account_id: DataTypes.INTEGER,
-  cashback: DataTypes.DECIMAL(10, 2),
-  amount: DataTypes.DECIMAL(10, 2),
-  transaction_date: DataTypes.DATE,
+  cashback: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+  },
+
+  amount: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull:false,
+  },
+
+  transaction_date: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  }
 }, {
-  tableName: 'transactions',
+  sequelize: db,
+  modelName: 'transactions',
   timestamps: false,
-  underscored: true,
-});
+})
 
-export default TransactionModel;
+export default TransactionSequelize;

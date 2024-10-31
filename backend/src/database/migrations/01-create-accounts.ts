@@ -14,6 +14,7 @@ export default {
       
       cpf_cnpj: {
         allowNull: false,
+        unique: true,
         type: DataTypes.STRING,
       },
 

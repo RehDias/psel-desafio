@@ -1,7 +1,9 @@
+export type NewEntity<T> = Omit<T, 'id'>;
+
 export interface SimpleModel<T> {
-  create(obj: T): Promise<void>;
-  findAll(): Promise<Partial<T>[]>;
-  findById(id: number): Promise<Partial<T>> | null;
+  create(obj: T): Promise<Partial<T>[]>;
+  find(): Promise<Partial<T>[]>;
+  findById(id: number): Promise<Partial<T> | null>;
 }
 
 export interface Model<T> extends SimpleModel<T> {
