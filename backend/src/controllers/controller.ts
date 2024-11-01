@@ -20,19 +20,17 @@ export default abstract class Controller<T> {
   async find(_req: Request, res: Response, next: NextFunction) {
     try {
       const findall = await this.service.find();
-      if (!findall) throw new Error('criar erro');
       return res.status(200).json(findall);
     } catch (err) {
       next(err);
     }
   }
 
-  async findById(req: Request, res: Response, next: NextFunction) {
+  async findOne(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
     try {
-      const findOne = await this.service.findById(Number(id));
-      if (!findOne) throw new Error('criar erro');
-      return res.status(200).json(findOne);
+      const findItem = await this.service.findById(Number(id));
+      return res.status(200).json(findItem);
     } catch (err) {
       next(err);
     }
