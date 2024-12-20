@@ -1,7 +1,24 @@
 import express from 'express';
+import router from './routers';
+import ErrorMiddleware from './middlewares/ErrorMiddleware';
 
-const app = express();
+export default class App {
+  public app: express.Express;
 
-app.use(express.json());
+  constructor() {
+    this.app = express();
 
-export default app;
+    this.app.use(express.json());
+
+    this.routes();
+
+    this.app.use(ErrorMiddleware.handleErr as any);
+  }
+
+  private routes(): void {
+    this.app.use(router);
+  }
+  public start(PORT: string | number): void {
+    this.app.listen(PORT, () => console.log(`Aplicação rodando na porta ${PORT}!`));
+  }
+}

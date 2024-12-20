@@ -1,10 +1,10 @@
 import 'dotenv/config';
-import app from "./app";
+import App from './app';
 
 const PORT = process.env.SERVER_PORT || 3000;
 
-const server = app.listen(PORT, () => {
-  console.log(`Aplicação rodando na porta ${PORT}`);
-});
+const app = new App();
+
+const server = app.start(PORT);
 
 export default server;
