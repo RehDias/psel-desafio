@@ -1,5 +1,5 @@
 import express from 'express';
-import router from './routers';
+import { accountRouter, transactionRouter } from './routers';
 import ErrorMiddleware from './middlewares/ErrorMiddleware';
 
 export default class App {
@@ -16,7 +16,8 @@ export default class App {
   }
 
   private routes(): void {
-    this.app.use(router);
+    this.app.use('/account', accountRouter);
+    this.app.use('/transaction',transactionRouter);
   }
   public start(PORT: string | number): void {
     this.app.listen(PORT, () => console.log(`Aplicação rodando na porta ${PORT}!`));

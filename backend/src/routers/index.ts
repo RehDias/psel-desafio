@@ -1,3 +1,4 @@
 import accountRouter from "./account.routes";
+import transactionRouter from "./transaction.routes";
 
-export default accountRouter;
+export { accountRouter, transactionRouter };
