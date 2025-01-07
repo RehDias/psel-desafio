@@ -11,7 +11,7 @@ export default class App {
     this.app.use(express.json());
 
     this.routes();
-
+    
     this.app.use(ErrorMiddleware.handleErr as any);
   }
 

@@ -44,6 +44,7 @@ AccountSequelize.init({
   account_status: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
+    defaultValue: true
   }
 }, {
   sequelize: db,

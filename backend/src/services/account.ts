@@ -7,6 +7,4 @@ export default class AccountService extends Service<Account> {
   constructor(model: Model<Account> = new AccountModel()) {
     super(model);
   }
-
-
 }
