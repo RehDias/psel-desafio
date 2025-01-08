@@ -20,6 +20,11 @@ export default class TransactionModel implements Model<Transaction> {
     return transaction;
   }
 
+  async findOne(account_id: string | number): Promise<Partial<Transaction> | null> {
+      const found = await this.model.findOne({ where: { account_id } });
+      return found;
+  }
+
   async update(id: number, obj: Transaction): Promise<void> {
       await this.model.update(obj, { where: { id } });
   }

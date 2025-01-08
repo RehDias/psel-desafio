@@ -1,6 +1,7 @@
 import express from 'express';
 import { accountRouter, transactionRouter } from './routers';
 import ErrorMiddleware from './middlewares/ErrorMiddleware';
+import loginRouter from './routers/login.routes';
 
 export default class App {
   public app: express.Express;
@@ -16,6 +17,7 @@ export default class App {
   }
 
   private routes(): void {
+    this.app.use('/login', loginRouter);
     this.app.use('/account', accountRouter);
     this.app.use('/transaction',transactionRouter);
   }

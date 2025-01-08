@@ -5,6 +5,7 @@ import { accountSchema } from "../interfaces/joiSchemas";
 
 const accountRouter = Router();
 const accountController = new AccountController;
+
 accountRouter.get('/', async (req, res, next) => {
   await accountController.find(req, res, next);
 });

@@ -36,6 +36,7 @@ export default {
       account_status: {
         allowNull: false,
         type: DataTypes.BOOLEAN,
+        defaultValue: true,
       },
     })
   },

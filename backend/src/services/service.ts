@@ -6,17 +6,25 @@ export default abstract class Service<T> {
   constructor(model: Model<T> | SimpleModel<T>) {
     this.model = model;
   }
-  async create(obj: T): Promise<Partial<T>[]> {
+
+  async create(obj: T): Promise<Partial<T>[] | undefined> {
     const newAccount = await this.model.create(obj);
     return newAccount;
   }
+
   async find(): Promise<Partial<T>[]> {
     const findAllAccount = await this.model.find();
     return findAllAccount;
   }
+
   async findById(id: number): Promise<Partial<T> | null> {
     const findOne = await this.model.findById(id);
     return findOne;
+  }
+
+  async findOne(item: string): Promise<Partial<T> | null> {
+    const found = await this.model.findOne(item);
+    return found;
   }
 
   async update(id: number, obj: T): Promise<void> {
