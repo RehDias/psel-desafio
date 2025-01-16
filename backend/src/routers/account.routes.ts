@@ -1,7 +1,8 @@
 import { Router } from "express";
 import AccountController from "../controllers/account";
 import ValidationMiddleware from "../middlewares/ValidationMiddleware";
-import { accountSchema } from "../interfaces/joiSchemas";
+import { accountSchema, updateSchema } from "../interfaces/joiSchemas";
+import Authenticate from "../middlewares/Authenticate";
 
 const accountRouter = Router();
 const accountController = new AccountController;
@@ -16,7 +17,9 @@ accountRouter.post('/', ValidationMiddleware.validate(accountSchema),
   async (req, res, next) => {
   await accountController.create(req, res, next);
 });
-accountRouter.put('/:id', async (req, res, next) => {
+accountRouter.put('/:id', Authenticate.autheticate,
+  ValidationMiddleware.validate(updateSchema), 
+  async (req, res, next) => {
   await accountController.update(req, res, next);
 });
 accountRouter.delete('/:id', async (req, res, next) => {

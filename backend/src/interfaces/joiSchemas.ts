@@ -26,6 +26,21 @@ const accountSchema = Joi.object({
   account_status: Joi.boolean()
 });
 
+const updateSchema = Joi.object({
+  name: Joi.string().min(3).messages({
+    'string.empty': 'O campo nome não pode estar vazio.',
+    'string.min': 'O campo nome deve possuir no mínimo 3 caracteres.',
+  }), 
+  email: Joi.string().email().messages({ 
+    'string.empty': 'O campo e-mail não pode estar vazio.',
+    'string.email': 'O campo e-mail deve ser um e-mail válido.',
+  }),
+  password: Joi.string().min(8).messages({
+    'string.empty': 'O campo senha não pode estar vazio.',
+    'string.min': 'O campo senha deve possuir no mínimo 8 caracteres.',
+  }) 
+})
+
 const transactionSchema = Joi.object({});
 
-export { accountSchema, transactionSchema };
+export { accountSchema, transactionSchema, updateSchema };
