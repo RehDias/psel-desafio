@@ -22,7 +22,7 @@ accountRouter.put('/:id', Authenticate.autheticate,
   async (req, res, next) => {
   await accountController.update(req, res, next);
 });
-accountRouter.delete('/:id', async (req, res, next) => {
+accountRouter.delete('/:id', Authenticate.autheticate, async (req, res, next) => {
   await accountController.delete(req, res, next);
 });
 

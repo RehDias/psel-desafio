@@ -27,6 +27,10 @@ const accountSchema = Joi.object({
 });
 
 const updateSchema = Joi.object({
+  cpf_cnpj: Joi.string().pattern(cpfOrCnpjRegex).messages({
+    'string.pattern.base': 'O documento deve ser um CPF ou CNPJ válido.',
+    'string.empty': 'O campo documento não pode estar vazio.',
+  }),
   name: Joi.string().min(3).messages({
     'string.empty': 'O campo nome não pode estar vazio.',
     'string.min': 'O campo nome deve possuir no mínimo 3 caracteres.',

@@ -10,8 +10,8 @@ export default abstract class Controller<T> {
 
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const created = await this.service.create(req.body);
-      return res.status(201).json(created);
+      await this.service.create(req.body);
+      return res.status(201).json({ message: "Criado com sucesso!" });
     } catch (err) {
       next(err);
     }
@@ -51,7 +51,7 @@ export default abstract class Controller<T> {
     const { id } = req.params;
     try {
       await this.service.delete(Number(id));
-      res.status(204).send();
+      res.status(201).json({ message: 'Deletado com sucesso!'});
     } catch (err) {
       next(err);
     }

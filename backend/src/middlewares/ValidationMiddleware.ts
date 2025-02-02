@@ -16,9 +16,8 @@ export default class ValidationMiddleware {
       } catch(error: unknown) {
         if (error instanceof Joi.ValidationError) {
           next(new BadRequestError(error.message));
-        } else {
-          next(error);
         }
+        next(error);
       }
     }
   }

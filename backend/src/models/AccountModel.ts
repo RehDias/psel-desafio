@@ -4,13 +4,18 @@ import BadRequestError from "../errors/BadRequestError";
 import { Account } from "../interfaces/Account";
 import { Model, NewEntity } from "../interfaces/model";
 
-export default class AccountModel implements Model<Account> {
+export default class AccountModel implements Model<Account>{
   private model = AccountSequelize;
   async create(obj: NewEntity<Account>): Promise<Partial<Account>[] | undefined> {
     try {
-      const newAccount = await this.model.create(obj);
-      newAccount.save();
-      return [newAccount.dataValues];
+      const accountExist = await this.model.findOne({ where: { email: obj.email } })
+      if (accountExist !== undefined && accountExist?.account_status == false ) {
+        await this.model.update({ account_status: true }, { where: { cpf_cnpj: obj.cpf_cnpj }});
+      } else {
+        const newAccount = await this.model.create(obj);
+        newAccount.save();
+        return [newAccount.dataValues];
+      }
     } catch (error: unknown) {
       if (error instanceof UniqueConstraintError) {
         throw new BadRequestError('Não foi possível criar a conta: o CPF/CNPJ informado já está cadastrado.')
@@ -34,7 +39,7 @@ export default class AccountModel implements Model<Account> {
   }
 
   async update(id: number | undefined, obj: Account): Promise<void> {
-      await this.model.update(obj, { where: { id } });
+    await this.model.update(obj, { where: { id } });
   }
 
   async delete(id: number): Promise<void> {
