@@ -1,6 +1,6 @@
 export interface Transaction {
-  id: number,
-  account_id: number,
+  transactionId: number,
+  account_id: string,
   cashback: number,
   amount: number,
   transaction_date: Date

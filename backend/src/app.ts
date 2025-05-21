@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import { accountRouter, transactionRouter } from './routers';
 import ErrorMiddleware from './middlewares/ErrorMiddleware';
 import loginRouter from './routers/login.routes';
@@ -9,6 +10,7 @@ export default class App {
   constructor() {
     this.app = express();
 
+    this.app.use(cors());
     this.app.use(express.json());
 
     this.routes();

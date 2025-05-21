@@ -4,15 +4,15 @@ import db from ".";
 
 class TransactionSequelize extends Model<InferAttributes<TransactionSequelize>,
   InferCreationAttributes<TransactionSequelize>> {
-    declare id: CreationOptional<number>;
-    declare account_id: number;
+    declare transactionId: CreationOptional<number>;
+    declare account_id: string;
     declare cashback: number;
     declare amount: number;
     declare transaction_date: Date;
 }
 
 TransactionSequelize.init({
-  id: {
+  transactionId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
@@ -20,7 +20,7 @@ TransactionSequelize.init({
   },
 
   account_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false
   },
 

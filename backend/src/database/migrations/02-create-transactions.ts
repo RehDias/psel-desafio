@@ -5,7 +5,7 @@ import { Transaction } from '../../interfaces/Transaction';
 export default {
   up(queryInterface: QueryInterface) {
     return queryInterface.createTable<Model<Transaction>>('transactions', {
-      id: {
+      transactionId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -15,12 +15,12 @@ export default {
       account_id: {
         allowNull: false,
         field: 'account_id',
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
         references: {
           model: 'accounts',
-          key: 'id',
+          key: 'cpf_cnpj',
         },
       },
 
@@ -37,6 +37,7 @@ export default {
       transaction_date: {
         allowNull: false,
         type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
       },
     })
   },

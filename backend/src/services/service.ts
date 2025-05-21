@@ -1,7 +1,7 @@
 import BadRequestError from "../errors/BadRequestError";
 import { Model, SimpleModel } from "../interfaces/model";
 
-export default abstract class Service<T> {
+export default abstract class Service<T extends object> {
   protected model: Model<T> | SimpleModel<T>;
 
   constructor(model: Model<T> | SimpleModel<T>) {
@@ -28,13 +28,13 @@ export default abstract class Service<T> {
     return found;
   }
 
-  async update(id: number, obj: T): Promise<void> {
+  async update(id: number, obj: Partial<T>): Promise<void> {
     const model = this.model as Model<T>;
     if (model.update === undefined) {
       throw new BadRequestError('Não é possível realizar atualizações!!');
     }
 
-    await model.update(id, obj);
+    await model.update(id, obj as T);
   }
 
   async delete(id: number): Promise<void> {
