@@ -108,5 +108,5 @@
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
   "exclude": ["./dist"],
-  "include": ["src/**/*", "tsconfig.json", "express.d.ts"]
+  "include": ["src/**/*", "tsconfig.json", "express.d.ts", "tests"]
 }

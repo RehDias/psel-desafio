@@ -3,8 +3,6 @@ import { Transaction } from "../interfaces/Transaction";
 import Service from "../services/service";
 import TransactionService from "../services/transaction";
 import Controller from "./controller";
-import AccountModel from "../models/AccountModel";
-import NotFoundError from "../errors/NotFoundError";
 import { getValidatedAccount, getValidatedTransaction } from "../utils/accountHelper";
 
 export default class TransactionController extends Controller<Transaction> {
@@ -15,19 +13,17 @@ export default class TransactionController extends Controller<Transaction> {
   async create(req: Request, res: Response, next: NextFunction) {
       try {
         const { id } = req.params;
-        const { amount, transaction_date } = req.body;
-
+        const obj = req.body;
+        
         const account = await getValidatedAccount(Number(id));
-    
+        
         const newTransaction = await this.service.create({
+          ...obj, 
           account_id: account.cpf_cnpj as string,
-          amount,
-          transaction_date,
-          cashback: 0, 
-          transactionId: 0 
+          transaction_date: Date.now(),
         });
     
-        return res.status(201).json({ transactionId: newTransaction?.[0] });
+        return res.status(201).json({ transactionId: newTransaction?.[0]?.transactionId });
       } catch (err) {
         next(err);
       }

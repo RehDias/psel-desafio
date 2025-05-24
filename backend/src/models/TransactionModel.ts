@@ -5,10 +5,10 @@ import { Transaction } from "../interfaces/Transaction";
 export default class TransactionModel implements Model<Transaction> {
   private model = TransactionSequelize;
   
-  async create(obj: Transaction): Promise<Partial<any>[]> {
+  async create(obj: Transaction): Promise<Partial<Transaction>[]> {
     const newTransaction = await this.model.create(obj);
     newTransaction.save();
-    return [newTransaction.dataValues.transactionId];
+    return [newTransaction.dataValues];
   }
 
   async find(accountId?: string): Promise<Partial<Transaction>[]> {

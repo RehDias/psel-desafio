@@ -38,7 +38,7 @@ export default class AccountModel implements Model<Account>{
       return found;
   }
 
-  async update(id: number | undefined, obj: Account): Promise<void> {
+  async update(id: number | undefined, obj: Partial<Account>): Promise<void> {
     await this.model.update(obj, { where: { id } });
   }
 

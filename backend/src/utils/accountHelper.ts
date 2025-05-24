@@ -24,7 +24,7 @@ export async function getValidatedTransaction(
   const transaction = await service.findOne(accountCpfCnpj, transactionId);
 
   if (!transaction || !transaction.transactionId) {
-    throw new NotFoundError('Transação não encontrada ou não pertence à conta');
+    throw new NotFoundError('Transação não encontrada ou não pertence à conta!');
   }
 
   return transaction as Transaction;

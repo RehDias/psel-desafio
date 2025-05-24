@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import Service from "../services/service";
 
-export default abstract class Controller<T> {
+export default abstract class Controller<T extends object> {
   protected service: Service<T>
 
   constructor(service: Service<T>) {
@@ -51,7 +51,7 @@ export default abstract class Controller<T> {
     const { id } = req.params;
     try {
       await this.service.delete(Number(id));
-      res.status(201).json({ message: 'Deletado com sucesso!'});
+      res.status(204).json({ message: 'Deletado com sucesso!'});
     } catch (err) {
       next(err);
     }

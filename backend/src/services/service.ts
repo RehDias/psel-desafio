@@ -9,13 +9,13 @@ export default abstract class Service<T extends object> {
   }
 
   async create(obj: T): Promise<Partial<T>[] | undefined> {
-    const newAccount = await this.model.create(obj);
-    return newAccount;
+    const created = await this.model.create(obj);
+    return created;
   }
 
   async find(): Promise<Partial<T>[]> {
-    const findAllAccount = await this.model.find();
-    return findAllAccount;
+    const findAll = await this.model.find();
+    return findAll;
   }
 
   async findById(id: number): Promise<Partial<T> | null> {
