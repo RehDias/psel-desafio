@@ -1,0 +1,17 @@
+{
+  "env": {
+    "es2020": true
+  },
+  "extends": "trybe-backend",
+  "rules": {
+    "sonarjs/no-duplicate-string": ["error", 5]
+  },
+  "overrides": [
+    {
+      "files": ["tests/**/*"],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
+}
