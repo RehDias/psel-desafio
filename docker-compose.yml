@@ -4,7 +4,7 @@ services:
     container_name: frontend
     tty: true
     stdin_open: true
-    command: sh
+    command: sh -c "npm install && npm run dev -- --host"
     restart: unless-stopped
     working_dir: /app
     volumes:
@@ -43,6 +43,6 @@ services:
       - 5432:5432
     env_file: .env
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASS}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASS:-postgres}
+      POSTGRES_DB: ${DB_NAME:-APIBank}
