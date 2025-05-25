@@ -14,12 +14,12 @@ function App() {
   return (
     <Routes>
       <Route path="/transaction/:id/cashback/:trId" element={<Cashback />} />
+      <Route path="/transaction/new/:id" element={<NewTransaction />} />
+      <Route path="/account/edit/:id" element={<EditAccount />} />
       <Route path="/transaction/:id/:trId" element={<TransactionDetails />} />
       <Route path="/transaction/:id" element={<TransactionList />} />
-      <Route path="/transaction/:id" element={<NewTransaction />} />
       <Route path="/account/:id" element={<Account />} />
-      <Route path="/account" element={<Register />} />
-      <Route path="/account/:id" element={<EditAccount />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/login" element={<Login />} />
       <Route path="/*" element={<Navigate to="/login" />} />

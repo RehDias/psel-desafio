@@ -7,7 +7,7 @@ export default class LoginController {
     try {
       const user = await LoginService.checkLogin(req.body);
       const token = LoginToken.createToken(user);
-      res.json({ token });
+      res.json({ token, user });
     } catch (err) {
       next(err);
     }
