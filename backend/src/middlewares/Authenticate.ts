@@ -8,7 +8,10 @@ export default class Authenticate {
       const { id } = req.params;
       try {
         const decoded = LoginToken.readToken(req.headers.authorization);
-        const user = await LoginService.checkLogin(decoded);
+        if (typeof decoded !== 'object' || decoded === null) {
+          return next(new UnauthorizedError('Token inválido!'));
+        }
+        const user = await LoginService.checkLogin(decoded as any);
         
         if (user !== undefined && user.id === Number(id)) {
           next();

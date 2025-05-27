@@ -1,13 +1,12 @@
 import { useContext, useState } from "react";
 import Context from "../../context/Context";
 import { useNavigate } from "react-router-dom";
-import type { ContextType } from "../../types/Types";
 
 function Login() {
-  const { onLogin, error } = useContext(Context) as ContextType;
+  const { onLogin, error } = useContext(Context);
   const navigate = useNavigate();
   const [input, setInput] = useState({
-    email: '',
+    cpf_cnpj: '',
     password: ''
   });  
   
@@ -15,9 +14,8 @@ function Login() {
     event.preventDefault();
 
     try {
-      const success = await onLogin(input.email, input.password);
+      const success = await onLogin(input.cpf_cnpj, input.password);
 
-      
       if (success) {
         navigate('/dashboard');
       }
@@ -32,15 +30,14 @@ function Login() {
     
   return (
     <>
-      <h1>Login Page</h1>
       <form onSubmit={handleSubmit}>
         <input 
-          type="email"
+          type="text"
           onChange={handleChange}
-          id='email'
-          name='email'
+          id='cpf_cnpj'
+          name='cpf_cnpj'
           required 
-          placeholder="Enter your e-mail" 
+          placeholder="Informe seu CPF ou CNPJ" 
         />
         <input 
           type="password" 
@@ -48,7 +45,7 @@ function Login() {
           id='password'
           name='password'
           required
-          placeholder="Enter yout password" 
+          placeholder="Informe sua senha" 
         />
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <button type="submit">Login</button>

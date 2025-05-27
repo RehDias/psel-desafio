@@ -1,7 +1,12 @@
+import { useContext } from "react";
+import Context from "../../context/Context";
+
 function Dashboard() {
+    const { user } = useContext(Context);
+
   return (
     <>
-      <h1>Dashboard Page</h1>
+      <h1>Olá { user?.name }</h1>
     </>
   )
 }

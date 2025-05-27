@@ -24,7 +24,7 @@ describe('Transaction integration tests', () => {
     await request(app).post('/account').send(accountTest);
 
     const login = await request(app).post('/login').send({
-      email: accountTest.email,
+      cpf_cnpj: accountTest.cpf_cnpj,
       password: accountTest.password,
     });
     

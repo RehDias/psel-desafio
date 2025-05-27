@@ -1,12 +1,15 @@
 import UnauthorizedError from "../errors/UnauthorizedError";
+import { LoginInterface } from "../interfaces/Login";
 import AccountModel from "../models/AccountModel";
+import AccountService from "./account";
 
 export default class LoginService {
-  static account: AccountModel = new AccountModel;
+  static account: AccountService = new AccountService(new AccountModel());
 
-  static async checkLogin (obj: any) {
-    const user = await this.account.findOne(obj.email);
-    if (!user || obj.password !== user.password) throw new UnauthorizedError("E-mail ou senha inválidos.");
+  static async checkLogin (obj: LoginInterface) {        
+    const user = await this.account.findOne(obj.cpf_cnpj);
+    
+    if (!user || obj.password !== user.password) throw new UnauthorizedError("Credenciais inválidas.");
     return user;
   }
 }

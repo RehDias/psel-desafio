@@ -14,11 +14,6 @@ export type Account = {
   account_status: boolean,
 }
 
-export type Login = {
-  email: string,
-  password: string
-}
-
 export type UpdateAccount = {
   name: string,
   email: string

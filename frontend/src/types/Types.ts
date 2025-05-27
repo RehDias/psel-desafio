@@ -1,11 +1,10 @@
+import type { Account, CreateAccount } from "./AccountTypes";
+
 export type ProviderValues = {
-  user: object;
+  user: Account | null;
   onLogin: (email: string, password: string) => Promise<boolean>;
   token: string;
   error: string | null;
+  onRegister: (obj: CreateAccount) => Promise<boolean>;
 }
 
-export type ContextType = {
-  onLogin: (email: string, password: string) => Promise<boolean>;
-  error: string | null;
-};

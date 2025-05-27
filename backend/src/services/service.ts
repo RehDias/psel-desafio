@@ -23,7 +23,7 @@ export default abstract class Service<T extends object> {
     return findOne;
   }
 
-  async findOne(item: string): Promise<Partial<T> | null> {
+  async findOne(item: string): Promise<Partial<T> | null> {   
     const found = await this.model.findOne(item);
     return found;
   }
