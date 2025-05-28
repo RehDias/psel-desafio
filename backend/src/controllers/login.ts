@@ -5,15 +5,17 @@ import LoginToken from "../interfaces/LoginToken";
 export default class LoginController {
   async login(req: Request, res: Response, next: NextFunction) {
     try {
+      const { cpf_cnpj, password } = req.body;
       
-      const user = await LoginService.checkLogin(req.body);
-      
-      if (!user.cpf_cnpj || !user.password) {
+      if (!cpf_cnpj || !password) {
         throw new Error('Invalid user data: cpf_cnpj and password are required');
       }
+
+      const user = await LoginService.checkLogin(req.body);
+
       const token = LoginToken.createToken({
-        cpf_cnpj: user.cpf_cnpj,
-        password: user.password
+        cpf_cnpj: req.body.cpf_cnpj,
+        id: user.id,
       });
       
       res.json({ token, user });

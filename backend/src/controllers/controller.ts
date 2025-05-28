@@ -10,8 +10,8 @@ export default abstract class Controller<T extends object> {
 
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      await this.service.create(req.body);
-      return res.status(201).json({ message: "Criado com sucesso!" });
+      const created = await this.service.create(req.body);
+      return res.status(201).json(created);
     } catch (err) {
       next(err);
     }

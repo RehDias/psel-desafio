@@ -18,7 +18,7 @@ export default class TransactionService extends Service<Transaction> {
     return await model.find(accountId);
   }
 
-  async create(obj: Transaction): Promise<Partial<Transaction>[]> {
+  async create(obj: Transaction): Promise<Partial<Transaction>> {
     const model = this.model as TransactionModel;
     return await model.create(obj);
   }

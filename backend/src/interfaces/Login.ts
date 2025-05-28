@@ -1,4 +1,4 @@
 export interface LoginInterface {
   cpf_cnpj: string;
-  password: string;
+  id: number | undefined;
 }

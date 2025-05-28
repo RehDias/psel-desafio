@@ -6,26 +6,27 @@ const app = new App().app;
 
 describe("Account integration tests", () => {
   let token: string;
+  let conta: any;
   const accountTest = {
         cpf_cnpj: '123.456.789-01',
         name: 'Maria',
         email: 'teste@email.com',
         password: 'senha123',
-        account_status: true,
       };
 
   beforeEach(async () => {
     jest.clearAllMocks();
     await initDbTest();
 
-    await request(app).post('/account').send(accountTest);
+    conta = await request(app).post('/account').send(accountTest);    
 
     const login = await request(app).post('/login').send({
-      cpf_cnpj: accountTest.cpf_cnpj,
-      password: accountTest.password,
+      cpf_cnpj: conta.body.cpf_cnpj,
+      password: 'senha123',
     });
     
     token = login.body.token;
+    
   });
 
   afterAll(async () => {
@@ -40,7 +41,6 @@ describe("Account integration tests", () => {
         name: 'Jane Doe',
         email: 'jane@email.com',
         password: 'senha123',
-        account_status: true,
       });
 
     expect(response.status).toBe(201);
@@ -54,7 +54,6 @@ describe("Account integration tests", () => {
         name: 'Maria',
         email: 'teste@email.com',
         password: 'senha123',
-        account_status: true,
       });
 
     expect(response.status).toBe(400);
@@ -63,22 +62,15 @@ describe("Account integration tests", () => {
 
   it('should get an account by id with success', async () => {
     const response = await request(app)
-      .get(`/account/1`)
+      .get(`/account/${conta.body.id}`)
       .send();
     
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({
-        id: 1,
-        cpf_cnpj: '123.456.789-01',
-        name: 'Maria',
-        email: 'teste@email.com',
-        password: 'senha123',
-        account_status: true,
-    });
+    expect(response.body).toEqual(conta.body);
   });
 
   it('should not get an account by id that does not exist', async () => {
-    const response = await request(app).get(`/account/99999`).send();
+    const response = await request(app).get(`/account/999999`).send();
 
     expect(response.status).toBe(404);
     expect(response.body).toEqual({ message: 'Conta não encontrada!' });
@@ -86,7 +78,7 @@ describe("Account integration tests", () => {
 
   it('should update an account with success', async () => {    
     const response = await request(app)
-      .put(`/account/1`)
+      .put(`/account/${conta.body.id}`)
       .set('Authorization', `${token}`)
       .send({
         name: 'Usuário Atualizado',
@@ -102,12 +94,12 @@ describe("Account integration tests", () => {
       .send();
     
     expect(response.status).toBe(200);
-    expect(response.body).toEqual([{ ...accountTest, id: 1 }]);
+    expect(response.body).toEqual([conta.body]);
   });
 
   it('should delete an account with success', async () => {
     const response = await request(app)
-      .delete(`/account/1`)
+      .delete(`/account/${conta.body.id}`)
       .set('Authorization', `${token}`)
       .send();    
     

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Context from "./Context";
 import type { ProviderValues } from "../types/Types";
-import { createAccount, loginApi } from "../api/accountApi";
+import { createAccount, getAccount, loginApi } from "../api/accountApi";
 import type { CreateAccount } from "../types/AccountTypes";
 
 function Provider({children}: {children: React.ReactNode}) {
@@ -10,12 +10,26 @@ function Provider({children}: {children: React.ReactNode}) {
   const [error, setError] = useState('')
   const [token, setToken] = useState('')
 
+  useEffect(() => {
+    async function fetchUserData() {
+      const storedToken = localStorage.getItem('token');
+      const userId = localStorage.getItem('userId');
+      if (storedToken) {
+        const userData = await getAccount(storedToken, Number(userId));
+        setUser(userData);
+        setToken(storedToken);
+      }
+    }
+    fetchUserData();
+  }, []);
+
   async function onLogin(cpf_cnpj: string, password: string) {
     try {
       const response = await loginApi(cpf_cnpj, password);
       setUser(response.user);
       setToken(response.token);
       localStorage.setItem('token', response.token);
+      localStorage.setItem('userId', response.user.id.toString());
       setError('');
       return true;
 

@@ -23,12 +23,12 @@ describe('transaction service unit tests', () => {
   });
 
   it('should create a new transaction', async () => {
-    mockModel.create.mockResolvedValue([transaction]);
+    mockModel.create.mockResolvedValue(transaction);
 
     const result = await service.create(transaction);
 
     expect(mockModel.create).toHaveBeenCalledWith(transaction);
-    expect(result).toEqual([transaction]);
+    expect(result).toEqual(transaction);
   });
 
   it('should find all transactions', async () => {

@@ -10,7 +10,6 @@ describe('Transaction integration tests', () => {
       name: 'Maria',
       email: 'teste@email.com',
       password: 'senha123',
-      account_status: true,
     };
   const transactionTest =  {
     cashback: 0.10,
@@ -21,11 +20,11 @@ describe('Transaction integration tests', () => {
     jest.clearAllMocks();
     await initDbTest();
 
-    await request(app).post('/account').send(accountTest);
+    const conta = await request(app).post('/account').send(accountTest);
 
     const login = await request(app).post('/login').send({
-      cpf_cnpj: accountTest.cpf_cnpj,
-      password: accountTest.password,
+      cpf_cnpj: conta.body.cpf_cnpj,
+      password: 'senha123',
     });
     
     token = login.body.token;

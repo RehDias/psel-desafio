@@ -14,6 +14,13 @@ describe('account service unit tests', () => {
       password: '123456', 
       account_status: true 
     };
+  const accountWithoutPassword = { 
+      id: 1, 
+      cpf_cnpj: '12345678901', 
+      name: 'John Doe', 
+      email: 'teste@email.com', 
+      account_status: true 
+    }
 
   beforeEach(() => {
     jest.clearAllMocks(); 
@@ -24,12 +31,12 @@ describe('account service unit tests', () => {
     
   });
   it('should create a new account', async () => {
-    mockModel.create.mockResolvedValue([account]);
+    mockModel.create.mockResolvedValue(accountWithoutPassword);
 
     const result = await service.create(account);
 
     expect(mockModel.create).toHaveBeenCalledWith(account);
-    expect(result).toEqual([account]);
+    expect(result).toEqual(accountWithoutPassword);
   });
 
   it('should find all accounts', async () => {
@@ -38,34 +45,33 @@ describe('account service unit tests', () => {
       cpf_cnpj: '123.456.789-01', 
       name: 'Jane Doe', 
       email: 'teste1@email.com', 
-      password: '123456', 
       account_status: true 
     };
 
-    mockModel.find.mockResolvedValue([account, account2]);
+    mockModel.find.mockResolvedValue([accountWithoutPassword, account2]);
 
     const result = await service.find();
 
     expect(mockModel.find).toHaveBeenCalled();
-    expect(result).toEqual([account, account2]);
+    expect(result).toEqual([accountWithoutPassword, account2]);
   });
 
   it('should find an account by id', async () => { 
-    mockModel.findById.mockResolvedValue(account);
+    mockModel.findById.mockResolvedValue(accountWithoutPassword);
 
     const result = await service.findById(1);
 
     expect(mockModel.findById).toHaveBeenCalledWith(1);
-    expect(result).toEqual(account);
+    expect(result).toEqual(accountWithoutPassword);
   });
   
   it('should find an account by cpf_cnpj', async () => {
-    mockModel.findOne.mockResolvedValue(account);
+    mockModel.findOne.mockResolvedValue(accountWithoutPassword);
 
     const result = await service.findOne('12345678901');
 
     expect(mockModel.findOne).toHaveBeenCalledWith('12345678901');
-    expect(result).toEqual(account);
+    expect(result).toEqual(accountWithoutPassword);
   });
 
   it('should update an account', async () => {
@@ -73,7 +79,6 @@ describe('account service unit tests', () => {
       id: 1, 
       name: 'Jane Doe', 
       email: 'teste@email.com', 
-      password: '123456', 
       account_status: true  
     };
     mockModel.update = jest.fn().mockResolvedValue(updatedAccount);

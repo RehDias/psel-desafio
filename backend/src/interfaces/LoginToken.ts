@@ -7,12 +7,14 @@ export default class LoginToken {
   private static secret: string = process.env.SECRET_KEY || 'jwtSecret';
 
   static createToken(user: LoginInterface): string {
-    const { cpf_cnpj, password } = user;
-    this.token = jwt.sign({ cpf_cnpj, password }, this.secret);
-    
-    return this.token;
-  }
+    const payload = {
+      id: user.id,
+      cpf_cnpj: user.cpf_cnpj,
+    };
 
+    const token = jwt.sign(payload, this.secret, { expiresIn: '2h' });
+    return token;
+}
   static readToken(token: string | undefined) {
     if (!token || token == undefined) throw new UnauthorizedError('Token não econtrado!');
     const decoded = jwt.verify(token, this.secret);

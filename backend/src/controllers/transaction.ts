@@ -23,7 +23,7 @@ export default class TransactionController extends Controller<Transaction> {
           transaction_date: Date.now(),
         });
     
-        return res.status(201).json({ transactionId: newTransaction?.[0]?.transactionId });
+        return res.status(201).json({ transactionId: newTransaction?.transactionId });
       } catch (err) {
         next(err);
       }

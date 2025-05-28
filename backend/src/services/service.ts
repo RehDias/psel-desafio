@@ -8,7 +8,7 @@ export default abstract class Service<T extends object> {
     this.model = model;
   }
 
-  async create(obj: T): Promise<Partial<T>[] | undefined> {
+  async create(obj: T): Promise<Partial<T> | undefined> {
     const created = await this.model.create(obj);
     return created;
   }
@@ -19,8 +19,8 @@ export default abstract class Service<T extends object> {
   }
 
   async findById(id: number): Promise<Partial<T> | null> {
-    const findOne = await this.model.findById(id);
-    return findOne;
+    const findById = await this.model.findById(id);
+    return findById;
   }
 
   async findOne(item: string): Promise<Partial<T> | null> {   
