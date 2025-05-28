@@ -109,14 +109,14 @@ export default class TransactionController extends Controller<Transaction> {
       Number(trId)
     );
   
-      await this.service.update(Number(trId), {
+      const updated = await this.service.update(Number(trId), {
         ...transaction,         
         ...updateData,         
         transactionId: Number(trId),
         account_id: account.cpf_cnpj,
       });
   
-      return res.status(204).end(); 
+      return res.status(204).json(updated); 
     } catch (error) {
       next(error);
     }

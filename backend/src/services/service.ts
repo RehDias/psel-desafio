@@ -28,13 +28,14 @@ export default abstract class Service<T extends object> {
     return found;
   }
 
-  async update(id: number, obj: Partial<T>): Promise<void> {
+  async update(id: number, obj: Partial<T>): Promise<Awaited<T> | null> {
     const model = this.model as Model<T>;
     if (model.update === undefined) {
       throw new BadRequestError('Não é possível realizar atualizações!!');
     }
 
-    await model.update(id, obj as T);
+    const updated = await model.update(id, obj as T);
+    return updated;
   }
 
   async delete(id: number): Promise<void> {

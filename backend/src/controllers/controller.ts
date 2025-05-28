@@ -40,8 +40,8 @@ export default abstract class Controller<T extends object> {
     const obj = req.body;
     const { id } = req.params;
     try {
-      await this.service.update(Number(id), obj);
-      return res.status(201).json({ message: 'Atualizado com sucesso!' });
+      const updated = await this.service.update(Number(id), obj);
+      return res.status(201).json(updated);
     } catch (err) {
       next(err);
     }

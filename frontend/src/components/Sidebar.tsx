@@ -2,7 +2,7 @@ import { useContext } from "react";
 import Context from "../context/Context";
 
 function Sidebar() {
-  const { user } = useContext(Context);
+  const { user, logout } = useContext(Context);
   
   return (
     <aside >
@@ -34,6 +34,9 @@ function Sidebar() {
                   </li>
                 </ul>
               </details>
+            </li>
+            <li>
+              <p onClick={logout}>Logout</p>
             </li>
           </ul>
         </details>

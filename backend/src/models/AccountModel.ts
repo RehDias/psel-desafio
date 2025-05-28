@@ -62,8 +62,13 @@ export default class AccountModel implements Model<Account>{
      return found?.dataValues || null;
   }
 
-  async update(id: number | undefined, obj: Partial<Account>): Promise<void> {
+  async update(id: number | undefined, obj: Partial<Account>): Promise<Account> {
     await this.model.update(obj, { where: { id } });
+    const updatedAccount = await this.model.findByPk(id);
+    if (!updatedAccount) {
+      throw new NotFoundError('Conta não encontrada!');
+    }
+    return updatedAccount.dataValues;
   }
 
   async delete(id: number): Promise<void> {

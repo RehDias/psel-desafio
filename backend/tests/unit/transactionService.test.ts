@@ -60,7 +60,7 @@ describe('transaction service unit tests', () => {
   it('should update a transaction', async () => {
     const updatedTransaction = { ...transaction, cashback: 0.8 };
 
-    mockModel.update.mockResolvedValue(undefined);
+    mockModel.update.mockResolvedValue(updatedTransaction);
 
     await service.update(1, updatedTransaction);
 

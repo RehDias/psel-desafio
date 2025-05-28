@@ -14,8 +14,8 @@ export default class AccountController extends Controller<Account> {
     const obj = req.body;
     const { id } = req.params;
     try {
-      await this.service.update(Number(id), obj);
-      return res.status(200).json({ message: 'Conta atualizada com sucesso!!' });
+      const updated = await this.service.update(Number(id), obj);
+      return res.status(200).json(updated);
     } catch (err) {
       if (err instanceof BadRequestError) { 
         next(new BadRequestError(err.message));

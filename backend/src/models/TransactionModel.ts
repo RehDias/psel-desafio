@@ -1,4 +1,5 @@
 import TransactionSequelize from "../database/models/transaction.model";
+import NotFoundError from "../errors/NotFoundError";
 import { Model } from "../interfaces/model";
 import { Transaction } from "../interfaces/Transaction";
 
@@ -26,8 +27,13 @@ export default class TransactionModel implements Model<Transaction> {
       return found;
   }
 
-  async update(trId: number, obj: Partial<Transaction>): Promise<void> {
-      await this.model.update(obj, { where: { transactionId: trId } });
+  async update(trId: number, obj: Partial<Transaction>): Promise<Transaction> {
+    await this.model.update(obj, { where: { transactionId: trId } });
+      const updatedTransaction = await this.model.findByPk(trId);
+      if (!updatedTransaction) {
+        throw new NotFoundError('Transação não encontrada!');
+      }
+      return updatedTransaction.dataValues;
   }
 
   async delete(trId: number): Promise<void> {

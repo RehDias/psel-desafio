@@ -10,7 +10,7 @@ export default class AccountService extends Service<Account> {
     super(model);
   }
 
-  async update(id: number, obj: Partial<Account>): Promise<void> {
+  async update(id: number, obj: Partial<Account>): Promise<Account> {
     const model = this.model as Model<Account>;
     if (model.update === undefined) {
       throw new BadRequestError('Não é possível realizar atualizações!!');
@@ -19,7 +19,11 @@ export default class AccountService extends Service<Account> {
       throw new BadRequestError('Não é permitido alterar CPF ou CNPJ!!');
     }
 
-    await model.update(id, obj as Account);
+    const updated = await model.update(id, obj as Account);
+    if ('password' in updated) {
+      delete (updated as any).password;
+    }
+    return updated;
   }
 
   async findById(id: number): Promise<Partial<Account>> {

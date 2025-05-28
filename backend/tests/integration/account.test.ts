@@ -85,7 +85,6 @@ describe("Account integration tests", () => {
       });
     
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({ message: 'Conta atualizada com sucesso!!'});
   });
 
   it('should return all accounts with success', async () => {

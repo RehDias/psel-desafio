@@ -8,6 +8,6 @@ export interface SimpleModel<T> {
 }
 
 export interface Model<T> extends SimpleModel<T> {
-  update(id: number, obj: T): Promise<void>;
+  update(id: number, obj: T): Promise<T>;
   delete(id: number): Promise<void>;
 }

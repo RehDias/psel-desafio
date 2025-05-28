@@ -17,5 +17,5 @@ export type Account = {
 export type UpdateAccount = {
   name: string,
   email: string
-  password: string,
+  password?: string,
 }

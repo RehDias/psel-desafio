@@ -3,7 +3,7 @@ import Context from "../../context/Context";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
-  const { onRegister, error } = useContext(Context);
+  const { onRegister, setError, error } = useContext(Context);
   const navigate = useNavigate();
   const [input, setInput] = useState({
     name: '',
@@ -23,6 +23,7 @@ function Register() {
       }
     } catch (err) {
       console.error('Erro no cadastro:', err);
+      setError('Erro ao realizar o cadastro, tente novamente!')
     }
   }
 
@@ -34,7 +35,7 @@ function Register() {
     <>
       <h1>Cadastro</h1>
       <p>Já possui uma conta? </p>
-      <p>Faça Login</p>
+      <p onClick={() => navigate('/login')}>Faça Login</p>
       <form onSubmit={handleSubmit}>
         <input 
           type="text" 
