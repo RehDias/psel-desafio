@@ -11,20 +11,34 @@ export default class AccountModel implements Model<Account>{
   async create(obj: NewEntity<Account>): Promise<Partial<Account> | undefined> {
   try {
     const accountExist = await this.model.findOne({ where: { cpf_cnpj: obj.cpf_cnpj } });
+    
+    const hashedPassword = obj.password = await bcrypt.hash(obj.password, 10);
+    const updatedObj = { ...obj, password: hashedPassword}
 
     if (accountExist && accountExist.account_status === false) {
-      await this.model.update({ account_status: true }, { where: { cpf_cnpj: obj.cpf_cnpj } });
+      
+      await this.model.update({
+        name: obj.name,
+        email: obj.email,
+        password: hashedPassword,
+        account_status: true
+       }, { where: { cpf_cnpj: obj.cpf_cnpj } });
+
+      const updatedAccount = await this.model.findOne({ where: { cpf_cnpj: obj.cpf_cnpj } });
+
+      if (updatedAccount) {
+        const { password, ...accountWithoutPassword } = updatedAccount.dataValues;
+        return accountWithoutPassword;
+      }
+
+      return undefined;
     }
 
     if (accountExist && accountExist.account_status === true) {
       throw new BadRequestError('Conta com este CPF/CNPJ já está ativa.');
     }
 
-    if (obj.password) {
-      obj.password = await bcrypt.hash(obj.password, 10);
-    }
-
-    const newAccount = await this.model.create(obj);
+    const newAccount = await this.model.create(updatedObj);
     const { password, ...accountWithoutPassword } = newAccount.dataValues;
 
     return accountWithoutPassword;

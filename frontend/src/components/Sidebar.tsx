@@ -2,7 +2,7 @@ import { useContext } from "react";
 import Context from "../context/Context";
 
 function Sidebar() {
-  const { user, logout } = useContext(Context);
+  const { user, logout, setError } = useContext(Context);
   
   return (
     <aside >
@@ -14,7 +14,7 @@ function Sidebar() {
               <a href={`/account/${user?.id}`}>Perfil do Cadastro</a>
             </li>
             <li>
-              <a href={`/dashboard`}>Dashboard</a>
+              <a href={`/dashboard`} onClick={() => setError('')}>Dashboard</a>
             </li>
             <li>
               <details>
@@ -22,12 +22,6 @@ function Sidebar() {
                 <ul>
                   <li>
                     <a href={`/transaction/new/${user?.id}`}>Nova Transação</a>
-                  </li>
-                  <li>
-                    <a href={`/transaction/${user?.id}/:trId`}>Detalhes</a>
-                  </li>
-                  <li>
-                    <a href={`/transaction/${user?.id}/cashback/:trId`}>Cashback</a>
                   </li>
                   <li>
                     <a href={`/transaction/${user?.id}`}>Extrato</a>

@@ -72,7 +72,7 @@ export async function updateAccount(
  }
 }
 
-export async function deleteAccount(token: string, id: number) {
+export async function deleteAccount(token: string, id: number | undefined) {
   try {
     const response = await axios.delete(`${URL}/account/${id}`, {
       headers: {

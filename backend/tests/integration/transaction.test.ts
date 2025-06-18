@@ -100,21 +100,7 @@ describe('Transaction integration tests', () => {
 
     expect(response.status).toBe(204);
   });
-
-  it('should update cashback of a transaction with success', async () => {
-    const transaction = await request(app)
-      .post('/transaction/1')
-      .set('Authorization', `${token}`)
-      .send(transactionTest);
-
-    const response = await request(app)
-      .patch(`/transaction/1/cashback/${transaction.body.transactionId}`)
-      .set('Authorization', `${token}`)
-      .send({ cashback: 0.20 });
-
-    expect(response.status).toBe(204);
-  });
-
+  
   it('should return 404 when transaction not found', async () => {
     const response = await request(app)
       .get('/transaction/1/999')

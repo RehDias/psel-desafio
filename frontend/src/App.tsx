@@ -7,13 +7,11 @@ import Register from './pages/register/Register'
 import TransactionList from './pages/transaction/TransactionList'
 import NewTransaction from './pages/transaction/NewTransaction'
 import TransactionDetails from './pages/transaction/TransactionDetails'
-import Cashback from './pages/transaction/Cashback'
 import PrivateRoute from './components/PrivateRoute'
 
 function App() {
   return (
     <Routes>
-      <Route path="/transaction/:id/cashback/:trId" element={<PrivateRoute><Cashback /></PrivateRoute>}  />
       <Route path="/transaction/new/:id" element={<PrivateRoute><NewTransaction /></PrivateRoute>}  />
       <Route path="/transaction/:id/:trId" element={<PrivateRoute><TransactionDetails /></PrivateRoute>}  />
       <Route path="/transaction/:id" element={<PrivateRoute><TransactionList /></PrivateRoute>}  />

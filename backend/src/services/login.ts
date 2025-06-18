@@ -12,12 +12,12 @@ static async checkLogin(obj: { cpf_cnpj: string; password: string }): Promise<Pa
     throw new UnauthorizedError("Credenciais inválidas.");
   }
   const userInstance = await this.account.findOne(obj.cpf_cnpj);
-
+  
   if (!userInstance || !userInstance.password) {
     throw new UnauthorizedError("Credenciais inválidas.");
   }
 
-  const passwordMatch = await bcrypt.compare(obj.password, userInstance.password);
+  const passwordMatch = await bcrypt.compare(obj.password, userInstance.password);  
 
   if (!passwordMatch) {
     throw new UnauthorizedError("Credenciais inválidas.");

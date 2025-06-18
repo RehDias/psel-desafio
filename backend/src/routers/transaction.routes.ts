@@ -26,9 +26,5 @@ transactionRouter.delete('/:id/:trId', Authenticate.autheticate, VerifyIfAccount
   async (req, res, next) => {
   await transacrionController.delete(req, res, next);
 });
-transactionRouter.patch('/:id/cashback/:trId', Authenticate.autheticate, VerifyIfAccountIsActive.isAccountActive,
-  async (req, res, next) => {
-    await transacrionController.updateCashback(req, res, next);
-});
 
 export default transactionRouter;

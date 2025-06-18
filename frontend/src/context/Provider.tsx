@@ -2,15 +2,17 @@
 import { useEffect, useState } from "react";
 import Context from "./Context";
 import type { ProviderValues } from "../types/Types";
-import { createAccount, getAccount, loginApi, updateAccount } from "../api/accountApi";
-import type { CreateAccount, UpdateAccount } from "../types/AccountTypes";
+import { createAccount, getAccount, loginApi } from "../api/accountApi";
+import type { CreateAccount } from "../types/AccountTypes";
 import { useNavigate } from "react-router-dom";
+import { getTransactions } from "../api/transactionApi";
 
 function Provider({children}: {children: React.ReactNode}) {
   const [user, setUser] = useState(null)
   const [error, setError] = useState('')
   const [token, setToken] = useState('')
   const [loading, setLoading] = useState(true);
+  const [transactions, setTransactions] = useState([]);
   const navigate = useNavigate();
 
   
@@ -46,6 +48,9 @@ function Provider({children}: {children: React.ReactNode}) {
 
       try {
         const userData = await getAccount(storedToken, Number(userId));
+        const responseTransaction = await getTransactions(storedToken, Number(userId));      
+        
+        setTransactions(responseTransaction);
         setUser(userData);
         setToken(storedToken);
       } catch (err) {
@@ -72,6 +77,12 @@ function Provider({children}: {children: React.ReactNode}) {
   async function onLogin(cpf_cnpj: string, password: string) {
     try {
       const response = await loginApi(cpf_cnpj, password);
+
+      if (response.user.account_status === false) {
+        alert('Sua conta está desativada. Por favor, crie uma nova conta para acessar o sistema.');
+        return false;
+      }
+      
       setUser(response.user);
       setToken(response.token);
       localStorage.setItem('token', response.token);
@@ -89,6 +100,7 @@ function Provider({children}: {children: React.ReactNode}) {
 
   async function onRegister(obj: CreateAccount) {
     try {
+      
       const cpfCnpjRegex = /^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}|\d{11}|\d{14})$/;
       if (!cpfCnpjRegex.test(obj.cpf_cnpj)) {
         setError('CPF ou CNPJ inválido');
@@ -107,24 +119,10 @@ function Provider({children}: {children: React.ReactNode}) {
     }
   }
 
-  async function updateUser(id: number, obj: UpdateAccount) {
-    if (!obj || !token) {
-      setError('Usuário não autenticado');
-      return false;
-    }
-    try {
-      const updatedUser = await updateAccount(token, id, obj);
-      setUser(updatedUser);
-
-      setError('');
-      return true;
-
-    } catch (error: any) {
-      const message = error.message || 'Erro ao atualizar usuário';
-      setError(message);
-      return false;
-    }
-  }
+  async function refreshTransactions(token: string, userId: number) {
+  const updatedList = await getTransactions(token, userId);
+  setTransactions(updatedList);
+}
 
   const values: ProviderValues = {
     user,
@@ -135,8 +133,11 @@ function Provider({children}: {children: React.ReactNode}) {
     logout,
     loading,
     setLoading,
-    updateUser,
-    setError
+    setError,
+    setUser,
+    transactions,
+    setTransactions,
+    refreshTransactions
   }
 
   return (

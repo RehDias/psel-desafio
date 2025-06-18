@@ -36,7 +36,7 @@ export default class TransactionModel implements Model<Transaction> {
       return updatedTransaction.dataValues;
   }
 
-  async delete(trId: number): Promise<void> {
-      await this.model.destroy({ where: { transactionId: trId }});
+  async delete(userId: number, trId: number): Promise<void> {
+      await this.model.destroy({ where: { account_id: userId, transactionId: trId }});
   }
 }

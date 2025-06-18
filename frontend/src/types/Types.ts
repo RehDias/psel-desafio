@@ -1,4 +1,4 @@
-import type { Account, CreateAccount, UpdateAccount } from "./AccountTypes";
+import type { Account, CreateAccount } from "./AccountTypes";
 
 export type ProviderValues = {
   user: Account | null;
@@ -9,7 +9,10 @@ export type ProviderValues = {
   logout(): void
   loading: boolean;
   setLoading: (loading: boolean) => void;
-  updateUser: (id: number, obj: UpdateAccount) => Promise<boolean>;
-  setError: React.Dispatch<React.SetStateAction<string>>
+  setError: React.Dispatch<React.SetStateAction<string>>;
+  setUser: React.Dispatch<React.SetStateAction<null>>;
+  transactions: never[];
+  setTransactions: React.Dispatch<React.SetStateAction<never[]>>;
+  refreshTransactions: (token: string, userId: number) => Promise<void>;
 }
 

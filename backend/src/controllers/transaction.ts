@@ -29,30 +29,6 @@ export default class TransactionController extends Controller<Transaction> {
       }
     }
 
-  async updateCashback(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { id, trId } = req.params;
-      const { cashback } = req.body;
-      
-      const account = await getValidatedAccount(Number(id));
-  
-      const transacation = await getValidatedTransaction(
-        this.service as TransactionService, 
-        account.cpf_cnpj as string, 
-        Number(trId));
-  
-      await this.service.update(Number(transacation.transactionId), {
-        cashback,
-        transactionId: transacation.transactionId,
-        account_id: account.cpf_cnpj,
-      });
-  
-      return res.status(204).send();
-    } catch (err) {
-      next(err);
-    }
-  }
-
   async findOne(req: Request, res: Response, next: NextFunction) {
     try {
       const { id, trId } = req.params;
@@ -85,8 +61,8 @@ export default class TransactionController extends Controller<Transaction> {
       const response = transactions.map(t => ({
         transactionId: t.transactionId,
         accountId: t.account_id,
-        date: t.transaction_date,
-        value: t.amount,
+        transaction_date: t.transaction_date,
+        amount: t.amount,
         cashback: t.cashback,
       }));
 
